@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { readFile, appendFile } from "fs/promises";
 import { existsSync } from "fs";
 import pkg from "./package.json" assert { type: "json" };
