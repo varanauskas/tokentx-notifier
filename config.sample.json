@@ -1,0 +1,25 @@
+{  
+    "telegramToken": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+    "chatId": 123456789,
+    "watch": {
+        "etherscan.io": {
+            "apiKey": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+            "accounts": [
+                { "contractAddress": "0x0000000000000000000000000000000000000000", "address": "0x0000000000000000000000000000000000000000" },
+                { "contractAddress": "0x0000000000000000000000000000000000000000", "address": "0x0000000000000000000000000000000000000000" }
+            ]
+        },
+        "bscscan.com": {
+            "apiKey": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+            "accounts": [
+                { "contractAddress": "0x0000000000000000000000000000000000000000", "address": "0x0000000000000000000000000000000000000000" }
+            ]
+        },
+        "polygonscan.com": {
+            "apiKey": "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789",
+            "accounts": [
+                { "contractAddress": "0x0000000000000000000000000000000000000000", "address": "0x0000000000000000000000000000000000000000" }
+            ]
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "tokentx-notifier",
+  "version": "1.0.0",
+  "description": "A telegram bot that sends a message when new ERC20 transactions are detected",
+  "keywords": ["telegram", "crypto", "ethereum", "erc20", "bot"],
+  "homepage": "https://github.com/varanauskas/tokentx-notifier",
+  "bugs": {
+    "url": "https://github.com/varanauskas/tokentx-notifier/issues"
+  },
+  "license": "MIT",
+  "author": "Tadas Varanauskas (https://github.com/varanauskas)",
+  "files": ["lib"],
+  "main": "index.mjs",
+  "bin": "./index.mjs",
+  "repository": "github:varanauskas/tokentx-notifier",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "type": "module"
+}
