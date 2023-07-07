@@ -3,10 +3,10 @@
 import { readFile, appendFile } from "fs/promises";
 import { existsSync } from "fs";
 import pkg from "./package.json" assert { type: "json" };
-import config from "./config.json" assert { type: "json" };
 import { getTokenTx } from "./lib/etherscan.mjs";
 import { deleteMessage, sendMessage } from "./lib/telegram.mjs";
 import { formatAccountUrl, formatHeartbeat, formatNewTxs } from "./lib/messages.mjs";
+import { readConfig } from "./lib/config.mjs";
 
 const {
     telegramToken,
@@ -14,7 +14,7 @@ const {
     watch = [],
     sleepMs = 1000, // 1 second
     heartbeatMs = 1800000 // 30 minutes
-} = config;
+} = await readConfig();
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
