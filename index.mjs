@@ -7,6 +7,7 @@ import { getTokenTx } from "./lib/etherscan.mjs";
 import { deleteMessage, sendMessage } from "./lib/telegram.mjs";
 import { formatAccountUrl, formatEtherscan, formatHeartbeat, formatNewTxs } from "./lib/messages.mjs";
 import { readConfig } from "./lib/config.mjs";
+import { sleep } from "./lib/utils.mjs";
 
 const {
     telegramToken,
@@ -15,8 +16,6 @@ const {
     sleepMs = 5000, // 5 seconds
     heartbeatMs = 1800000 // 30 minutes
 } = await readConfig();
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 let nextHeartbeat = 0;
 let lastHeartbeatMessageId;
