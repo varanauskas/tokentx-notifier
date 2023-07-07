@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 import pkg from "./package.json" assert { type: "json" };
 import { getTokenTx } from "./lib/etherscan.mjs";
 import { deleteMessage, sendMessage } from "./lib/telegram.mjs";
-import { formatAccountUrl, formatHeartbeat, formatNewTxs } from "./lib/messages.mjs";
+import { formatAccountUrl, formatEtherscan, formatHeartbeat, formatNewTxs } from "./lib/messages.mjs";
 import { readConfig } from "./lib/config.mjs";
 
 const {
@@ -44,7 +44,7 @@ while (true) {
                 }
             } catch (error) {
                 console.error("Watch error", error);
-                sendMessage(telegramToken, chatId, "⚠️ Error occured").catch(error => console`Cannot send error message ${error}`);
+                sendMessage(telegramToken, chatId, `⚠️ Error occured when checking ${formatEtherscan(etherscan)}`).catch(error => console`Cannot send error message ${error}`);
             }
     
             await sleep(sleepMs);
