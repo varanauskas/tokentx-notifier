@@ -26,12 +26,11 @@ console.log(`${pkg.name} (v${pkg.version}) is listening for new transactions and
 while (true) {
     await Promise.all(Object.entries(watch).map(async ([etherscan, { apiKey, accounts }]) => {
         const ignoreFile = `${etherscan}.ignore.txt`;
+        const ignoreFileExists = existsSync(ignoreFile);
 
         for (const account of accounts) {
             try {
                 const result = await getTokenTx(etherscan, { apiKey, ...account });
-    
-                const ignoreFileExists = existsSync(ignoreFile);
     
                 const ignoreHashes = ignoreFileExists ? (await readFile(ignoreFile, "ascii")).split("\n").map(line => line.trim()) : [];
     
