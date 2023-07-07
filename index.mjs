@@ -12,7 +12,7 @@ const {
     telegramToken,
     chatId,
     watch = [],
-    sleepMs = 1000, // 1 second
+    sleepMs = 5000, // 5 seconds
     heartbeatMs = 1800000 // 30 minutes
 } = await readConfig();
 
