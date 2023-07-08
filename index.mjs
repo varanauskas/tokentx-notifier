@@ -4,21 +4,20 @@ import { readFile, appendFile } from "fs/promises";
 import { existsSync } from "fs";
 import pkg from "./package.json" assert { type: "json" };
 import { getTokenTx } from "./lib/etherscan.mjs";
-import { deleteMessage, sendMessage } from "./lib/telegram.mjs";
-import { formatAccountUrl, formatEtherscan, formatHeartbeat, formatNewTxs } from "./lib/messages.mjs";
+import { deleteMessage, editMessageText, sendMessage } from "./lib/telegram.mjs";
+import { formatAccountUrl, formatEtherscan, formatStatus, formatNewTxs, formatError } from "./lib/messages.mjs";
 import { readConfig } from "./lib/config.mjs";
 import { sleep } from "./lib/utils.mjs";
+import { statusMessage } from "./lib/status.mjs";
 
 const {
     telegramToken,
     chatId,
     watch = [],
     sleepMs = 5000, // 5 seconds
-    heartbeatMs = 1800000 // 30 minutes
 } = await readConfig();
 
-let nextHeartbeat = 0;
-let lastHeartbeatMessageId;
+const status = statusMessage(telegramToken, chatId);
 
 console.log(`${pkg.name} (v${pkg.version}) is listening for new transactions and sending messages to ${chatId}`);
 
@@ -43,17 +42,12 @@ while (true) {
                 }
             } catch (error) {
                 console.error("Watch error", error);
-                sendMessage(telegramToken, chatId, `⚠️ Error occured when checking ${formatEtherscan(etherscan)}`).catch(error => console`Cannot send error message ${error}`);
+                sendMessage(telegramToken, chatId, formatError(etherscan)).catch(error => console`Cannot send error message ${error}`);
             }
     
             await sleep(sleepMs);
         }
     }));
 
-    if (Date.now() >= nextHeartbeat) {
-        const { message_id } = await sendMessage(telegramToken, chatId, formatHeartbeat(watch), { disable_notification: true });
-        if (lastHeartbeatMessageId) deleteMessage(telegramToken, chatId, lastHeartbeatMessageId).catch(console.error);
-        lastHeartbeatMessageId = message_id;
-        nextHeartbeat = Date.now() + heartbeatMs;
-    }
+    status.update(watch);
 }
