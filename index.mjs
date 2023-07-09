@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 import pkg from "./package.json" assert { type: "json" };
 import { getTokenTx } from "./lib/etherscan.mjs";
 import { deleteMessage, editMessageText, sendMessage } from "./lib/telegram.mjs";
-import { formatAccountUrl, formatEtherscan, formatStatus, formatNewTxs, formatError } from "./lib/messages.mjs";
+import { formatAccountUrl, formatEtherscan, formatStatus, formatNewTx, formatError } from "./lib/messages.mjs";
 import { readConfig } from "./lib/config.mjs";
 import { sleep } from "./lib/utils.mjs";
 import { statusMessage } from "./lib/status.mjs";
@@ -37,7 +37,12 @@ while (true) {
                 console.log(`Got ${newTxs.length} new transactions for ${formatAccountUrl(etherscan, account)}`);
     
                 if (newTxs.length > 0) {
-                    if (ignoreFileExists) sendMessage(telegramToken, chatId, formatNewTxs(newTxs, etherscan));
+                    if (ignoreFileExists) {
+                        for (const tx of newTxs) {
+                            await sendMessage(telegramToken, chatId, formatNewTx(tx, etherscan));
+                            await sleep(500);
+                        }
+                    }
                     await appendFile(ignoreFile, newTxs.map(({ hash }) => hash.toLowerCase()).join('\n') + '\n', "ascii");
                 }
             } catch (error) {
