@@ -25,17 +25,20 @@ while (true) {
     await Promise.all(Object.entries(watch).map(async ([etherscan, { apiKey, accounts }]) => {
         const ignoreFile = `${etherscan}.ignore.txt`;
         const ignoreFileExists = existsSync(ignoreFile);
+        const ignoreHashes = ignoreFileExists ? (await readFile(ignoreFile, "ascii")).split("\n").map(line => line.trim()) : [];
 
         for (const account of accounts) {
             try {
-                const result = await getTokenTx(etherscan, { apiKey, ...account });
-    
-                const ignoreHashes = ignoreFileExists ? (await readFile(ignoreFile, "ascii")).split("\n").map(line => line.trim()) : [];
-    
+                const result = await getTokenTx(etherscan, {
+                    apiKey,
+                    offset: ignoreFileExists ? "100" : "1000",
+                    ...account
+                });
+
                 const newTxs = result.filter(({ hash }) => !ignoreHashes.includes(hash.toLowerCase()));
 
                 console.log(`Got ${newTxs.length} new transactions for ${formatAccountUrl(etherscan, account)}`);
-    
+
                 if (newTxs.length > 0) {
                     if (ignoreFileExists) {
                         for (const tx of newTxs) {
