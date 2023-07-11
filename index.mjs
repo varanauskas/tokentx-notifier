@@ -15,7 +15,6 @@ const {
     chatId,
     watch = [],
     etherscanSleepMs = 5000, // 5 seconds
-    telegramSleepMs = 500,
 } = await readConfig();
 
 const TXS_PER_MESSAGE = 16;
@@ -64,7 +63,6 @@ while (true) {
             for (let page = 0; page < pages; page++) {
                 const messageTxs = txs.slice(page * TXS_PER_MESSAGE, (page + 1) * TXS_PER_MESSAGE);
                 await sendMessage(telegramToken, chatId, formatNewTxs(messageTxs, etherscan, page, pages));
-                await sleep(telegramSleepMs);
             }
         }
 
