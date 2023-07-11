@@ -54,10 +54,10 @@ while (true) {
             await sleep(etherscanSleepMs);
         }
 
-        return { etherscan, txs, ignoreFileExists };
+        return { etherscan, txs, ignoreFile, ignoreFileExists };
     }));
 
-    for (const { etherscan, txs, ignoreFileExists } of newTxs) {
+    for (const { etherscan, txs, ignoreFile, ignoreFileExists } of newTxs) {
         if (txs.length === 0) continue;
         if (ignoreFileExists) {
             const pages = Math.ceil(txs.length / TXS_PER_MESSAGE);
