@@ -45,7 +45,7 @@ while (true) {
 
                 console.log(`Got ${newTxs.length} new transactions for ${formatAccountUrl(etherscan, account)}`);
 
-                txs.concat(newTxs);
+                txs.push(...newTxs);
             } catch (error) {
                 console.error("Watch error", error);
                 sendMessage(telegramToken, chatId, formatError(etherscan)).catch(error => console.log(`Cannot send error message ${error}`));
