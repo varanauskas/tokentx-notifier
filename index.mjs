@@ -59,10 +59,9 @@ while (true) {
     for (const { etherscan, txs, ignoreFile, ignoreFileExists } of newTxs) {
         if (txs.length === 0) continue;
         if (ignoreFileExists) {
-            const pages = Math.ceil(txs.length / TXS_PER_MESSAGE);
-            for (let page = 0; page < pages; page++) {
+            for (let page = 0; page < txs.length / TXS_PER_MESSAGE; page++) {
                 const messageTxs = txs.slice(page * TXS_PER_MESSAGE, (page + 1) * TXS_PER_MESSAGE);
-                await sendMessage(telegramToken, chatId, formatNewTxs(messageTxs, etherscan, page, pages));
+                await sendMessage(telegramToken, chatId, formatNewTxs(messageTxs, etherscan));
             }
         }
 
