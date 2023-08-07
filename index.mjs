@@ -68,5 +68,5 @@ while (true) {
         await appendFile(ignoreFile, txs.map(({ hash }) => hash.toLowerCase()).join('\n') + '\n', "ascii");
     }
 
-    status.update(watch);
+    status.update(watch, pkg);
 }
