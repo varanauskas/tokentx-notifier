@@ -1,0 +1,14 @@
+[Service]
+ExecStart=/usr/bin/tokentx-notifier
+WorkingDirectory=/opt/tokentx-notifier
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=tokentx-notifier
+User=tokentx-notifier
+Group=tokentx-notifier
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
