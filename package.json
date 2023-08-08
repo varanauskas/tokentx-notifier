@@ -1,6 +1,6 @@
 {
   "name": "tokentx-notifier",
-  "version": "1.3.13",
+  "version": "1.4.0-beta",
   "description": "A telegram bot that sends a message when new ERC20 transactions are detected",
   "keywords": ["telegram", "crypto", "ethereum", "erc20", "bot"],
   "homepage": "https://github.com/varanauskas/tokentx-notifier",

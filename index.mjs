@@ -5,10 +5,10 @@ import { existsSync } from "fs";
 import pkg from "./package.json" assert { type: "json" };
 import { getTokenTx } from "./lib/etherscan.mjs";
 import { sendMessage } from "./lib/telegram.mjs";
-import { formatAccountUrl, formatNewTxs, formatError } from "./lib/messages.mjs";
+import { formatAccountUrl, formatNewTxs, formatError, formatStatus } from "./lib/messages.mjs";
 import { readConfig } from "./lib/config.mjs";
 import { sleep } from "./lib/utils.mjs";
-import { statusMessage } from "./lib/status.mjs";
+import { sendPermanentMessage } from "./lib/permanent.mjs";
 
 const {
     telegramToken,
@@ -19,12 +19,11 @@ const {
 
 const TXS_PER_MESSAGE = 16;
 
-const status = statusMessage(telegramToken, chatId);
+const setStatusMessage = sendPermanentMessage(telegramToken, chatId);
 
 console.log(`${pkg.name} (v${pkg.version}) is listening for new transactions and sending messages to ${chatId}`);
 
 while (true) {
-    // Pipeline to get new txs
     const newTxs = await Promise.all(Object.entries(watch).map(async ([etherscan, { apiKey, accounts }]) => {
         const ignoreFile = `${etherscan}.ignore.txt`;
         const ignoreFileExists = existsSync(ignoreFile);
@@ -68,5 +67,5 @@ while (true) {
         await appendFile(ignoreFile, txs.map(({ hash }) => hash.toLowerCase()).join('\n') + '\n', "ascii");
     }
 
-    status.update(watch, pkg);
+    setStatusMessage(formatStatus(watch, pkg));
 }
