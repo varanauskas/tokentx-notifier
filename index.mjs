@@ -35,7 +35,7 @@ while (true) {
             try {
                 const result = await getTokenTx(etherscan, {
                     apiKey,
-                    offset: ignoreFileExists ? "100" : "10000",
+                    offset: ignoreFileExists ? "50" : "10000",
                     ...account
                 });
 
